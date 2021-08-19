@@ -1,6 +1,12 @@
 body, * {
+  color: #f5f6fa;
   margin: 0;
   font-family: Roboto ,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: #f5f6fa;
 }

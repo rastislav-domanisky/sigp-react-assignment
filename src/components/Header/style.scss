@@ -1,0 +1,15 @@
+.header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #2f3640;
+    padding: 10px 8%;
+
+    h1 {
+        font-size: 25px;
+        font-weight: bold;
+    }
+}
