@@ -12,4 +12,12 @@
         font-size: 25px;
         font-weight: bold;
     }
+
+    .search-area {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
 }
