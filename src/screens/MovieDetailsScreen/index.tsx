@@ -2,9 +2,14 @@ import React, { ReactElement, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import { CircularProgress } from '@material-ui/core';
-import { Favorite as FavoriteIcon } from '@material-ui/icons';
+import { CircularProgress, IconButton } from '@material-ui/core';
+import { Favorite, FavoriteBorderOutlined } from '@material-ui/icons';
 import getMovieData, { MovieDataResult } from 'utils/OMDbService/getMovieData';
+import {
+  addToFavorites,
+  removeFromFavorites,
+  getFavorites,
+} from 'utils/favorites';
 import './style.scss';
 
 interface ParamTypes {
@@ -14,6 +19,7 @@ interface ParamTypes {
 type MovieDetailsScreenState = {
   isLoaded: boolean;
   movieData: MovieDataResult | null;
+  isFavorite: boolean;
 };
 
 function MovieDetailsScreen(): ReactElement {
@@ -22,7 +28,16 @@ function MovieDetailsScreen(): ReactElement {
   const [state, setState] = useState<MovieDetailsScreenState>({
     isLoaded: false,
     movieData: null,
+    isFavorite: false,
   });
+
+  const isInFavorites = (movieID: string): boolean => {
+    const favList = getFavorites();
+    if (state.movieData) {
+      return favList.includes(movieID);
+    }
+    return false;
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -31,6 +46,7 @@ function MovieDetailsScreen(): ReactElement {
         ...current,
         isLoaded: true,
         movieData: result,
+        isFavorite: isInFavorites(result.data.imdbID),
       }));
     };
 
@@ -58,7 +74,21 @@ function MovieDetailsScreen(): ReactElement {
             <h2 className="movie-details-title">
               {state.movieData.data.Title}
             </h2>
-            <FavoriteIcon />
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => {
+                if (state.movieData) {
+                  if (state.isFavorite) {
+                    removeFromFavorites(state.movieData.data.imdbID);
+                    setState((current) => ({ ...current, isFavorite: false }));
+                  } else {
+                    addToFavorites(state.movieData.data.imdbID);
+                    setState((current) => ({ ...current, isFavorite: true }));
+                  }
+                }
+              }}>
+              {state.isFavorite ? <Favorite /> : <FavoriteBorderOutlined />}
+            </IconButton>
           </div>
           <img
             className="movie-details-poster"
