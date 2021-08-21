@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import React, { ReactElement, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { IconButton, TextField } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { Search, PlaylistAddRounded } from '@material-ui/icons';
+import { useDispatch, useStore } from 'react-redux';
 import { moviesActions } from 'store/reducers/movies';
 import './style.scss';
 
@@ -12,6 +12,13 @@ type Props = {
 
 function Header({ withSearch }: Props): ReactElement {
   const dispatch = useDispatch();
+
+  const store = useStore();
+  const history = useHistory();
+
+  const [searchText, setSearchText] = useState(
+    store.getState().movies.searchText,
+  );
 
   return (
     <header className="header">
@@ -26,13 +33,32 @@ function Header({ withSearch }: Props): ReactElement {
             variant="outlined"
             placeholder="Search"
             size="small"
+            onChange={(event) => {
+              setSearchText(event.target.value);
+            }}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') {
+                const { page } = store.getState().movies;
+                dispatch(moviesActions.clearMovies());
+                dispatch(moviesActions.loadMovies({ text: searchText, page }));
+              }
+            }}
           />
           <IconButton
-            aria-label="delete"
+            aria-label="Search"
             onClick={() => {
-              dispatch(moviesActions.loadMovies('Arrow'));
+              const { page } = store.getState().movies;
+              dispatch(moviesActions.clearMovies());
+              dispatch(moviesActions.loadMovies({ text: searchText, page }));
             }}>
             <Search />
+          </IconButton>
+          <IconButton
+            aria-label="My movies"
+            onClick={() => {
+              history.push('/myMovies');
+            }}>
+            <PlaylistAddRounded />
           </IconButton>
         </div>
       )}

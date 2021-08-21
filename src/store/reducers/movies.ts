@@ -5,6 +5,7 @@ type InitialState = {
   isLoading: boolean;
   searchText: string;
   favorites: Array<string>;
+  page: number;
 };
 
 const initialState: InitialState = {
@@ -12,18 +13,27 @@ const initialState: InitialState = {
   isLoading: false,
   searchText: '',
   favorites: [],
+  page: 1,
 };
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    loadMovies: (state = initialState, action: PayloadAction<string>) => {
+    setPage: (state = initialState, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
+    clearMovies: (state = initialState) => {
+      state.movies = [];
+      state.searchText = '';
+      state.page = 1;
+    },
+    loadMovies: (state = initialState, action: PayloadAction<any>) => {
       state.isLoading = true;
-      state.searchText = action.payload;
+      state.searchText = action.payload.text;
     },
     setMovies: (state = initialState, action: PayloadAction<any>) => {
-      state.movies = action.payload;
+      state.movies = action.payload.Search;
       state.isLoading = false;
     },
   },

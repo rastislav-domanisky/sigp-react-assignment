@@ -1,11 +1,16 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import { Button, IconButton, Typography } from '@material-ui/core';
-import { Favorite } from '@material-ui/icons';
+import { Favorite, FavoriteBorderOutlined } from '@material-ui/icons';
+import {
+  getFavorites,
+  removeFromFavorites,
+  addToFavorites,
+} from 'utils/favorites';
 import './style.scss';
 
 type Props = {
@@ -14,6 +19,22 @@ type Props = {
 
 function MovieCard(props: Props): ReactElement {
   const history = useHistory();
+
+  const favorites = getFavorites();
+
+  const [isFavorite, setFavorite] = useState(
+    favorites.includes(props.movieData.imdbID),
+  );
+
+  const handleFavorite = () => {
+    if (isFavorite) {
+      removeFromFavorites(props.movieData.imdbID);
+      setFavorite(false);
+    } else {
+      addToFavorites(props.movieData.imdbID);
+      setFavorite(true);
+    }
+  };
 
   return (
     <Card className="movie-card">
@@ -31,8 +52,8 @@ function MovieCard(props: Props): ReactElement {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <Favorite />
+        <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+          {isFavorite ? <Favorite /> : <FavoriteBorderOutlined />}
         </IconButton>
         <Button
           variant="contained"

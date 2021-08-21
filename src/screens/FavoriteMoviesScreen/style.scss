@@ -1,17 +1,15 @@
-.home-screen {
+.favorite-movies-screen {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: 100vh;
 
-  .main-content {
+  .main-content-favorite {
     box-sizing: border-box;
     width: 100%;
     flex: 1;
     overflow-y: auto;
     padding: 10px 10px;
-    display: flex;
-    flex-direction: column;
 
     .grid-container {
       box-sizing: border-box;
@@ -21,26 +19,16 @@
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
-      flex: 1;
 
       @media (min-width: 450px) {
         grid-template-columns: 1fr 1fr;
       }
-    }
-
-    .pagination {
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
     }
   }
 }
 
 .centered {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
