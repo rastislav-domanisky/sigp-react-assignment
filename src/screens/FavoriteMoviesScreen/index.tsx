@@ -43,7 +43,7 @@ const FavoriteMoviesScreen = () => {
   if (!state.isLoaded) {
     return (
       <div className="home-screen">
-        <Header withSearch={false} />
+        <Header withSearch={false} withBack />
         <main className="main-content-movie centered">
           <CircularProgress />
         </main>
@@ -63,7 +63,7 @@ const FavoriteMoviesScreen = () => {
 
   return (
     <div className="favorite-movies-screen">
-      <Header withSearch={false} />
+      <Header withSearch={false} withBack />
       <main className="main-content-favorite">
         <div className="grid-container">{renderItems()}</div>
       </main>

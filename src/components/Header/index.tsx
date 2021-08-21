@@ -1,16 +1,17 @@
 import React, { ReactElement, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { IconButton, TextField } from '@material-ui/core';
-import { Search, PlaylistAddRounded } from '@material-ui/icons';
+import { ArrowBack, PlaylistAddRounded, Search } from '@material-ui/icons';
 import { useDispatch, useStore } from 'react-redux';
 import { moviesActions } from 'store/reducers/movies';
 import './style.scss';
 
 type Props = {
   withSearch: boolean;
+  withBack: boolean;
 };
 
-function Header({ withSearch }: Props): ReactElement {
+function Header({ withSearch, withBack }: Props): ReactElement {
   const dispatch = useDispatch();
 
   const store = useStore();
@@ -22,9 +23,23 @@ function Header({ withSearch }: Props): ReactElement {
 
   return (
     <header className="header">
-      <Link to="/">
-        <h1>MOVIE DB</h1>
-      </Link>
+      <div className="heading-area">
+        {withBack ? (
+          <IconButton
+            aria-label="Back"
+            onClick={() => {
+              history.goBack();
+            }}>
+            <ArrowBack />
+          </IconButton>
+        ) : (
+          <div className="empty" />
+        )}
+        <Link to="/">
+          <h1>MOVIE DB</h1>
+        </Link>
+        <div className="empty" />
+      </div>
       {!withSearch ? null : (
         <div className="search-area">
           <TextField

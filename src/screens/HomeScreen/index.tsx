@@ -28,7 +28,7 @@ function HomeScreen(props: any): ReactElement {
   if (props.movies.isLoading) {
     return (
       <div className="home-screen">
-        <Header withSearch />
+        <Header withSearch withBack={false} />
         <main className="main-content centered">
           <CircularProgress />
         </main>
@@ -39,12 +39,13 @@ function HomeScreen(props: any): ReactElement {
 
   return (
     <div className="home-screen">
-      <Header withSearch />
+      <Header withSearch withBack={false} />
       <main className="main-content">
         <div className="grid-container">{renderItems()}</div>
         <div className="pagination">
           <IconButton
             aria-label="BACK"
+            disabled={props.movies.page === 1}
             onClick={() => {
               if (props.movies.page > 1) {
                 dispatch(moviesActions.setPage(props.movies.page - 1));
@@ -56,7 +57,9 @@ function HomeScreen(props: any): ReactElement {
                 );
               }
             }}>
-            <NavigateBefore />
+            <NavigateBefore
+              style={props.movies.page === 1 ? { fill: 'gray' } : {}}
+            />
           </IconButton>
           <p>{props.movies.page}</p>
           <IconButton

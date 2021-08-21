@@ -40,7 +40,7 @@ function MovieDetailsScreen(): ReactElement {
   if (!state.isLoaded || !state.movieData?.isOK) {
     return (
       <div className="home-screen">
-        <Header withSearch={false} />
+        <Header withSearch={false} withBack />
         <main className="main-content-movie centered">
           {!state.isLoaded ? <CircularProgress /> : <h2>404</h2>}
         </main>
@@ -51,7 +51,7 @@ function MovieDetailsScreen(): ReactElement {
 
   return (
     <div className="movie-details-screen">
-      <Header withSearch={false} />
+      <Header withSearch={false} withBack />
       <main className="main-content-movie">
         <div className="movie-details-container">
           <div className="title-area">
