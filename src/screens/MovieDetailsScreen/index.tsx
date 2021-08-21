@@ -33,15 +33,13 @@ function MovieDetailsScreen(): ReactElement {
 
   const isInFavorites = (movieID: string): boolean => {
     const favList = getFavorites();
-    if (state.movieData) {
-      return favList.includes(movieID);
-    }
-    return false;
+    return favList.includes(movieID);
   };
 
   useEffect(() => {
     const getData = async () => {
       const result = await getMovieData(id);
+
       setState((current) => ({
         ...current,
         isLoaded: true,
